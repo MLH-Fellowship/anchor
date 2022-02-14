@@ -570,7 +570,7 @@ pub struct Initialize<'info> {
     registrar: Account<'info, Registrar>,
     #[account(zero)]
     reward_event_q: Account<'info, RewardQueue>,
-    #[account("pool_mint.decimals == 0")]
+    #[account(constraint = "pool_mint.decimals == 0")]
     pool_mint: Account<'info, Mint>,
 }
 
@@ -621,7 +621,7 @@ pub struct CreateMember<'info> {
     balances_locked: BalanceSandboxAccounts<'info>,
     member_signer: AccountInfo<'info>,
     // Misc.
-    #[account("token_program.key == &token::ID")]
+    #[account(constraint = "token_program.key == &token::ID")]
     token_program: AccountInfo<'info>,
 }
 
@@ -952,7 +952,7 @@ pub struct ClaimReward<'info> {
 pub struct ClaimRewardLocked<'info> {
     cmn: ClaimRewardCommon<'info>,
     registry: ProgramState<'info, Registry>,
-    #[account("lockup_program.key == &registry.lockup_program")]
+    #[account(constraint = "lockup_program.key == &registry.lockup_program")]
     lockup_program: AccountInfo<'info>,
 }
 
