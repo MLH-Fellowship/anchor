@@ -60,6 +60,7 @@ pub fn parse_token(stream: ParseStream) -> ParseResult<ConstraintToken> {
 
     let ident = stream.call(Ident::parse_any)?;
     let kw = ident.to_string();
+    println!("Inside parse_token");
 
     let c = match kw.as_str() {
         "init" => ConstraintToken::Init(Context::new(
@@ -273,13 +274,16 @@ pub fn parse_token(stream: ParseStream) -> ParseResult<ConstraintToken> {
                         space: stream.parse()?,
                     },
                 )),
-                "constraint" => ConstraintToken::Raw(Context::new(
-                    span,
-                    ConstraintRaw {
-                        raw: stream.parse()?,
-                        error: parse_optional_custom_error(&stream)?,
-                    },
-                )),
+                "constraint" => {
+                    println!("Inside constraint");
+                    ConstraintToken::Raw(Context::new(
+                        span,
+                        ConstraintRaw {
+                            raw: stream.parse()?,
+                            error: parse_optional_custom_error(&stream)?,
+                        },
+                    ))
+                }
                 "close" => ConstraintToken::Close(Context::new(
                     span,
                     ConstraintClose {
@@ -302,10 +306,14 @@ pub fn parse_token(stream: ParseStream) -> ParseResult<ConstraintToken> {
 }
 
 fn parse_optional_custom_error(stream: &ParseStream) -> ParseResult<Option<Expr>> {
+    println!("Inside parse_custom_error");
     if stream.peek(Token![@]) {
+        println!("Inside parse_custom_error1");
         stream.parse::<Token![@]>()?;
+        println!("Inside parse_custom_error2");
         stream.parse().map(Some)
     } else {
+        println!("Inside parse_custom_error2");
         Ok(None)
     }
 }
