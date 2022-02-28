@@ -76,6 +76,7 @@ export function splitArgsAndCtx(
   let options = {};
 
   const inputLen = idlIx.args ? idlIx.args.length : 0;
+  console.log(args.length, inputLen);
   if (args.length > inputLen) {
     if (args.length !== inputLen + 1) {
       throw new Error(
